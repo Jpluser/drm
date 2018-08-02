@@ -4,7 +4,7 @@
  * 2017年9月19日
  * 上午8:38:08
  */
-package com.ctfin.framework.drm.client.annotation;
+package com.ctfin.framework.drm.common.annotation;
 
 import static java.lang.annotation.ElementType.FIELD;
 import static java.lang.annotation.ElementType.METHOD;

@@ -4,7 +4,7 @@
  * 2017年9月19日
  * 上午10:06:07
  */
-package com.ctfin.framework.drm.client;
+package com.ctfin.framework.drm.common;
 
 import java.io.Serializable;
 

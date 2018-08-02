@@ -4,7 +4,7 @@
  * 2017年12月27日
  * 上午11:01:24
  */
-package com.ctfin.framework.drm.admin.model;
+package com.ctfin.framework.drm.common.model;
 
 /**
  * @author yujiakui
@@ -32,4 +32,7 @@ public interface ZkPathConstants {
 
 	/** 所有应用程序的ip地址 */
 	String IP = "ip";
+
+	/** zk路径 /CTFIN/DRM/应用程序名/all/类名/属性名 总共包含6个/ */
+	int FIELD_PATH_SEG_NUM = 6;
 }

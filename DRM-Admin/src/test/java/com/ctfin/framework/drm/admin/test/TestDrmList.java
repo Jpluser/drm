@@ -6,6 +6,7 @@
  */
 package com.ctfin.framework.drm.admin.test;
 
+import com.ctfin.framework.drm.common.DrmRequestParam;
 import java.util.List;
 
 import org.springframework.context.annotation.AnnotationConfigApplicationContext;
@@ -26,13 +27,18 @@ public class TestDrmList {
 	 * @throws InterruptedException
 	 */
 	public static void main(String[] args) throws InterruptedException {
-		System.setProperty("zk.server.addr", "192.168.1.202:2181");
+		System.setProperty("zk.server.addr", "172.16.9.184:2181");
 		AnnotationConfigApplicationContext annotationConfigApplicationContext = new AnnotationConfigApplicationContext(
-				"com.ctfin.framework.drm.admin", "com.ctfin.framework.drm.admin.test");
+				"com.ctfin.framework.drm");
 		DrmService drmService = annotationConfigApplicationContext.getBean(DrmService.class);
 		// drmService.push(drmConfRequestParam);
-		List<DrmConfRequestParam> drmConfRequestParams = drmService.listAllDrmInfo();
-		System.out.println(drmConfRequestParams);
+		List<String> strings = drmService.listAllApps();
+		for(String app:strings){
+			List<DrmRequestParam> drmRequestParams = drmService.listAllDrmInfo(app);
+			System.out.println(drmRequestParams);
+
+		}
+
 
 		Thread.sleep(200);
 	}

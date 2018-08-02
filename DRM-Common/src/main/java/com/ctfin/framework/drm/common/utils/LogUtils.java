@@ -4,7 +4,7 @@
  * 2017年9月25日
  * 下午2:11:08
  */
-package com.ctfin.framework.drm.client.utils;
+package com.ctfin.framework.drm.common.utils;
 
 import java.text.MessageFormat;
 
