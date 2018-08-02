@@ -66,17 +66,22 @@ Drm整体设计框架是利用Zookeeper作为配置中心的思想，通过Zooke
 #### 3.2 DRM Client使用
 步骤：
 * （1）增加maven依赖
+```xml
 <dependency>
 			<groupId>com.ctfin.framework</groupId>
 			<artifactId>drm</artifactId>
 			<version>1.0.0</version>
 </dependency>
+```
+
 * （2）在配置文件中增加如下属性：
-applicationName应用程序的名称
-zk.server.addr: zk对应的地址和端口
-如yaml文件中对应的配置如下：
-applicationName: kccf
-zk.server.addr: 192.168.1.202:2181
+```properties
+applicationName=应用程序的名称
+zk.server.addr=zk对应的地址和端口
+
+```
+
+
 * （3）注解需要推送的类和属性（注意注解和需要实现的接口DrmResourceManager—）接口可以实现也可以不实现，不做强制要求）
  
 * （4）增加Component 扫描的路径：com.ctfin.framework.drm.common
