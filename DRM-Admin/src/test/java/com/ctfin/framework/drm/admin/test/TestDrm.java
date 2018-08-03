@@ -6,11 +6,10 @@
  */
 package com.ctfin.framework.drm.admin.test;
 
+import com.ctfin.framework.drm.admin.model.DrmConfObject;
 import org.springframework.context.annotation.AnnotationConfigApplicationContext;
 
-import com.ctfin.framework.drm.admin.model.DrmConfRequestParam;
 import com.ctfin.framework.drm.admin.service.DrmService;
-import com.google.common.collect.Lists;
 
 /**
  * @author yujiakui
@@ -28,7 +27,7 @@ public class TestDrm {
 		System.setProperty("zk.server.addr", "127.0.0.1:2181");
 		AnnotationConfigApplicationContext annotationConfigApplicationContext = new AnnotationConfigApplicationContext(
 				"com.ctfin.framework.drm");
-		DrmConfRequestParam drmConfRequestParam = new DrmConfRequestParam();
+		DrmConfObject drmConfRequestParam = new DrmConfObject();
 		drmConfRequestParam.setApplicationName("yjk");
 		drmConfRequestParam.setClassName("com.ctfin.framework.drm.common.test.DrmWebInfoCndResource");
 		drmConfRequestParam.setDrmValue("hellohyb");

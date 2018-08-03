@@ -6,7 +6,7 @@
  */
 package com.ctfin.framework.drm.admin;
 
-import com.ctfin.framework.drm.admin.model.DrmConfRequestParam;
+import com.ctfin.framework.drm.admin.model.DrmConfObject;
 
 /**
  * @author yujiakui
@@ -22,6 +22,6 @@ public interface DrmConfRequestParamPersist {
 	 *
 	 * @param drmConfRequestParam
 	 */
-	public void save(DrmConfRequestParam drmConfRequestParam);
+	public void save(DrmConfObject drmConfRequestParam);
 
 }

@@ -20,8 +20,11 @@ drm设计和说明文档地址：https://www.jianshu.com/p/d6cd29ab54a7
  
 Drm整体设计框架是利用Zookeeper作为配置中心的思想，通过Zookeeper提供的watch机制来实现Client对推送信息的监听，通过动态创建ZK目录层次结构来实现动态配置信息的推送，对应的目录结构设计如下：
 /CTFIN/DRM/系统名/类名/属性名/
+
 /CTFIN/DRM/系统名/类名/属性名/persist   (本级节点是全局持久化的节点)
+
 /CTFIN/DRM/系统名/类名/属性名/clientip        (本级节点是临时不持久化的节点，当客户端机器上线时创建下线时删除)
+
 
 * 1.客户端上线时先扫描所有标注有@DrmFieldResource的Field
 * 2.如果persist级节点不存在则持久化创建一个节点并将当前值设置到节点

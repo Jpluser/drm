@@ -1,5 +1,5 @@
 /**
- * DrmRequestParam.java
+ * DrmObject.java
  * author: yujiakui
  * 2017年9月19日
  * 上午9:54:35
@@ -16,7 +16,7 @@ import java.io.Serializable;
  *
  *         drm推送的请求参数
  */
-public class DrmRequestParam implements Cloneable, Serializable {
+public class DrmObject implements Cloneable, Serializable {
 
 	/** serial id */
 	private static final long serialVersionUID = -2940277243382576657L;
@@ -30,18 +30,22 @@ public class DrmRequestParam implements Cloneable, Serializable {
 	/** drm推送的值 */
 	private Object drmValue;
 	/**
+	 * put时的时间戳
+	 */
+	private Long timestamp;
+	/**
 	 * 资源操作类型
 	 */
 	private DrmOperationEnum operation = DrmOperationEnum.PUT;
-	public DrmRequestParam() {
+	public DrmObject() {
 	}
 
-	public DrmRequestParam(String className, String fieldName) {
+	public DrmObject(String className, String fieldName) {
 		this.className = className;
 		this.fieldName = fieldName;
 	}
 
-	public DrmRequestParam(String className, String fieldName, Object drmValue) {
+	public DrmObject(String className, String fieldName, Object drmValue) {
 		this.className = className;
 		this.fieldName = fieldName;
 		this.drmValue = drmValue;
@@ -52,7 +56,7 @@ public class DrmRequestParam implements Cloneable, Serializable {
 	 */
 	@Override
 	public String toString() {
-		StringBuilder stringBuilder = new StringBuilder("DrmRequestParam{");
+		StringBuilder stringBuilder = new StringBuilder("DrmObject{");
 		stringBuilder.append("className=").append(className).append(",");
 		stringBuilder.append("fieldName=").append(fieldName).append(",");
 		stringBuilder.append("drmValue=").append(drmValue).append(",");
@@ -111,5 +115,13 @@ public class DrmRequestParam implements Cloneable, Serializable {
 
 	public void setOperation(DrmOperationEnum operation) {
 		this.operation = operation;
+	}
+
+	public Long getTimestamp() {
+		return timestamp;
+	}
+
+	public void setTimestamp(Long timestamp) {
+		this.timestamp = timestamp;
 	}
 }

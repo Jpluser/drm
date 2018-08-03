@@ -3,11 +3,10 @@
  */
 package com.ctfin.framework.drm.admin.service;
 
-import com.ctfin.framework.drm.common.DrmRequestParam;
+import com.ctfin.framework.drm.admin.model.DrmConfObject;
+import com.ctfin.framework.drm.common.DrmObject;
 import com.ctfin.framework.drm.common.model.DrmClients;
 import java.util.List;
-
-import com.ctfin.framework.drm.admin.model.DrmConfRequestParam;
 
 /**
  * @author yujiakui
@@ -22,12 +21,12 @@ public interface DrmService {
   /**
    * drm推送配置请求参数
    */
-  boolean push(DrmConfRequestParam drmConfRequestParam);
+  boolean push(DrmConfObject drmConfRequestParam);
 
   /**
    * 获取某个机器上的DRM值
    */
-  Object getClientDrmValue(DrmConfRequestParam drmConfRequestParam);
+  Object getClientDrmValue(DrmConfObject drmConfRequestParam);
 
   /**
    * 删除对应的drm 配置，如下线对应的drm 配置，则可以通过这个删除
@@ -36,12 +35,12 @@ public interface DrmService {
    * 或者/CTFIN/DRM/应用程序名称/特定机器/类名/属性名，注意在删除all的同时会连带删除对应的特定机器 即是清除路径/CTFIN/DRM/应用程序名称/all/类名/属性名/persist或者nopersist
    * 如果类下面仅仅只有一个属性，且这个属性是要删除的，则会清除路径到类 删除的时候，如果字段为空，则从类开始删除，如果类为空，则冲机器开始删除
    */
-  boolean delete(DrmConfRequestParam drmConfRequestParam);
+  boolean delete(DrmConfObject drmConfRequestParam);
 
   /**
    * 获得所有的drm推送列表
    */
-  List<DrmRequestParam> listAllDrmInfo(String app);
+  List<DrmObject> listAllDrmInfo(String app);
 
   /**
    * 获取所有的app列表
@@ -49,5 +48,5 @@ public interface DrmService {
    */
   List<String> listAllApps();
 
-  List<DrmClients> listDrmClients(DrmConfRequestParam drmConfRequestParam);
+  List<DrmClients> listDrmClients(DrmConfObject drmConfRequestParam);
 }

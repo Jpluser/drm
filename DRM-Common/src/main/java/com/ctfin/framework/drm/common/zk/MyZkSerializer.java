@@ -4,7 +4,7 @@
 package com.ctfin.framework.drm.common.zk;
 
 import com.alibaba.fastjson.JSON;
-import com.ctfin.framework.drm.common.DrmRequestParam;
+import com.ctfin.framework.drm.common.DrmObject;
 
 import org.I0Itec.zkclient.exception.ZkMarshallingError;
 import org.I0Itec.zkclient.serialize.ZkSerializer;
@@ -34,7 +34,7 @@ public class MyZkSerializer implements ZkSerializer {
   @Override
   public Object deserialize(byte[] bytes) throws ZkMarshallingError {
     try {
-      return JSON.parseObject(new String(bytes, "UTF-8"), DrmRequestParam.class);
+      return JSON.parseObject(new String(bytes, "UTF-8"), DrmObject.class);
     } catch (Exception e) {
       logger.error("ZkSerializer deserialize error",e);
     }

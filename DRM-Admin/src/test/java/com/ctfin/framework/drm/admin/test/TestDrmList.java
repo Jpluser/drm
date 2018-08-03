@@ -6,12 +6,11 @@
  */
 package com.ctfin.framework.drm.admin.test;
 
-import com.ctfin.framework.drm.common.DrmRequestParam;
+import com.ctfin.framework.drm.common.DrmObject;
 import java.util.List;
 
 import org.springframework.context.annotation.AnnotationConfigApplicationContext;
 
-import com.ctfin.framework.drm.admin.model.DrmConfRequestParam;
 import com.ctfin.framework.drm.admin.service.DrmService;
 
 /**
@@ -34,8 +33,8 @@ public class TestDrmList {
 		// drmService.push(drmConfRequestParam);
 		List<String> strings = drmService.listAllApps();
 		for(String app:strings){
-			List<DrmRequestParam> drmRequestParams = drmService.listAllDrmInfo(app);
-			System.out.println(drmRequestParams);
+			List<DrmObject> drmObjects = drmService.listAllDrmInfo(app);
+			System.out.println(drmObjects);
 
 		}
 

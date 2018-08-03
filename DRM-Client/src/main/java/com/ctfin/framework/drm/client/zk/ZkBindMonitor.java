@@ -4,6 +4,7 @@
 package com.ctfin.framework.drm.client.zk;
 
 import com.ctfin.framework.drm.client.DrmResourceParseFactory;
+import com.ctfin.framework.drm.common.DrmObject;
 import com.ctfin.framework.drm.common.model.FieldModel;
 import com.ctfin.framework.drm.common.zk.ZkClientFetch;
 import java.lang.reflect.Field;
@@ -12,7 +13,6 @@ import java.net.UnknownHostException;
 
 import org.I0Itec.zkclient.ZkClient;
 import org.apache.commons.lang.StringUtils;
-import org.apache.zookeeper.CreateMode;
 import org.apache.zookeeper.KeeperException;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
@@ -21,7 +21,6 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.beans.factory.annotation.Value;
 import org.springframework.stereotype.Component;
 
-import com.ctfin.framework.drm.common.DrmRequestParam;
 import com.ctfin.framework.drm.common.model.ZkPathConstants;
 import com.ctfin.framework.drm.common.utils.LogUtils;
 import com.google.common.collect.Table;
@@ -103,7 +102,7 @@ public class ZkBindMonitor implements InitializingBean {
     String zkIpFieldPath=getZkFieldPath(field);
     String persistPath = zkIpFieldPath + ZkPathConstants.PATH_SEP + ZkPathConstants.PERSIST;
     String localPath = zkIpFieldPath + ZkPathConstants.PATH_SEP + getLocalIp();
-    DrmRequestParam drmPersistFieldValue = new DrmRequestParam(className, fieldName);
+    DrmObject drmPersistFieldValue = new DrmObject(className, fieldName);
     if (zkClient.exists(persistPath)) {
       // 持久化路径存在
       drmPersistFieldValue = zkClient.readData(persistPath);
@@ -134,9 +133,9 @@ public class ZkBindMonitor implements InitializingBean {
   /**
    * 处理drm推送的值
    */
-  private void handleDrmValue(DrmRequestParam drmRequestParam) {
-    if (drmRequestParam != null && drmRequestParam.getDrmValue() != null) {
-      drmResourceParseFactory.resetFieldValue(drmRequestParam);
+  private void handleDrmValue(DrmObject drmObject) {
+    if (drmObject != null && drmObject.getDrmValue() != null) {
+      drmResourceParseFactory.resetFieldValue(drmObject);
     }
   }
 

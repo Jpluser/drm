@@ -6,9 +6,6 @@
  */
 package com.ctfin.framework.drm.common.test;
 
-import com.ctfin.framework.drm.client.DrmResourceParseFactory;
-import com.ctfin.framework.drm.common.DrmRequestParam;
-import com.ctfin.framework.drm.common.DrmRequestResult;
 import org.springframework.context.annotation.AnnotationConfigApplicationContext;
 
 /**

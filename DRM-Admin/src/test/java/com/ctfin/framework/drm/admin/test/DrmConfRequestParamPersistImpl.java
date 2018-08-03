@@ -9,7 +9,7 @@ package com.ctfin.framework.drm.admin.test;
 import org.springframework.stereotype.Component;
 
 import com.ctfin.framework.drm.admin.DrmConfRequestParamPersist;
-import com.ctfin.framework.drm.admin.model.DrmConfRequestParam;
+import com.ctfin.framework.drm.admin.model.DrmConfObject;
 
 /**
  * @author yujiakui
@@ -21,10 +21,10 @@ import com.ctfin.framework.drm.admin.model.DrmConfRequestParam;
 public class DrmConfRequestParamPersistImpl implements DrmConfRequestParamPersist {
 
 	/* (non-Javadoc)
-	 * @see com.ctfin.framework.drm.server.DrmConfRequestParamPersist#save(com.ctfin.framework.drm.server.model.DrmConfRequestParam)
+	 * @see com.ctfin.framework.drm.server.DrmConfRequestParamPersist#save(com.ctfin.framework.drm.server.model.DrmConfObject)
 	 */
 	@Override
-	public void save(DrmConfRequestParam drmConfRequestParam) {
+	public void save(DrmConfObject drmConfRequestParam) {
 		System.out.println(drmConfRequestParam);
 	}
 

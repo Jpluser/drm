@@ -3,7 +3,7 @@
  */
 package com.ctfin.framework.drm.client;
 
-import com.ctfin.framework.drm.common.DrmRequestParam;
+import com.ctfin.framework.drm.common.DrmObject;
 import com.ctfin.framework.drm.common.DrmRequestResult;
 import com.ctfin.framework.drm.common.model.FieldModel;
 import java.lang.reflect.Field;
@@ -60,7 +60,7 @@ public class DrmResourceParseFactory implements ApplicationContextAware {
    * @param param
    * @return
    */
-  public DrmRequestResult resetFieldValue(DrmRequestParam param) {
+  public DrmRequestResult resetFieldValue(DrmObject param) {
 
     // 1. 根据ClassName获取对应的Class对象
     try {
@@ -82,7 +82,7 @@ public class DrmResourceParseFactory implements ApplicationContextAware {
    * @param param
    * @param beanObj
    */
-  private void setDrmFieldValue(DrmRequestParam param, Object beanObj) {
+  private void setDrmFieldValue(DrmObject param, Object beanObj) {
     Field field = parseResultTable.get(param.getClassName(), param.getFieldName()).getField();
     if (field == null) {
       throw new RuntimeException(MessageFormat.format("类名{0}和属性名{1}对应的field不存在",

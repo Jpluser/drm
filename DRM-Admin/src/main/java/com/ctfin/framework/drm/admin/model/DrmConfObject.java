@@ -1,12 +1,10 @@
 /**
- * DrmConfRequestParam.java author: yujiakui 2017年9月19日 下午1:46:42
+ * DrmConfObject.java author: yujiakui 2017年9月19日 下午1:46:42
  */
 package com.ctfin.framework.drm.admin.model;
 
-import com.ctfin.framework.drm.common.DrmRequestParam;
-import com.ctfin.framework.drm.common.model.DrmOperationEnum;
+import com.ctfin.framework.drm.common.DrmObject;
 import com.ctfin.framework.drm.common.model.ZkPathConstants;
-import java.io.Serializable;
 import java.util.List;
 
 import com.google.common.collect.Lists;
@@ -19,7 +17,7 @@ import org.apache.commons.lang.StringUtils;
  *
  *         drm配置请求参数
  */
-public class DrmConfRequestParam extends DrmRequestParam {
+public class DrmConfObject extends DrmObject {
 
   /** serial id */
   private static final long serialVersionUID = -4391448172258037621L;
@@ -32,7 +30,7 @@ public class DrmConfRequestParam extends DrmRequestParam {
 
   @Override
   public String toString() {
-    StringBuilder stringBuilder = new StringBuilder("DrmConfRequestParam{");
+    StringBuilder stringBuilder = new StringBuilder("DrmConfObject{");
     stringBuilder.append("drmRequestUrl=[").append(drmRequestUrl).append("],");
     stringBuilder.append("applicationName=").append(applicationName).append(",");
     stringBuilder.append("className=").append(getClassName()).append(",");
@@ -43,8 +41,8 @@ public class DrmConfRequestParam extends DrmRequestParam {
   }
 
   @Override
-  public DrmConfRequestParam clone() throws CloneNotSupportedException {
-    DrmConfRequestParam drmConfRequestParam = (DrmConfRequestParam) super.clone();
+  public DrmConfObject clone() throws CloneNotSupportedException {
+    DrmConfObject drmConfRequestParam = (DrmConfObject) super.clone();
     drmConfRequestParam.setApplicationName(applicationName);
     drmConfRequestParam.setClassName(getClassName());
     drmConfRequestParam.setDrmRequestUrl(Lists.newArrayList(drmRequestUrl));
