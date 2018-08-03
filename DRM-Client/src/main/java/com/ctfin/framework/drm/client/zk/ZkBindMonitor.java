@@ -13,6 +13,7 @@ import java.net.UnknownHostException;
 import org.I0Itec.zkclient.ZkClient;
 import org.apache.commons.lang.StringUtils;
 import org.apache.zookeeper.CreateMode;
+import org.apache.zookeeper.KeeperException;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.InitializingBean;
@@ -110,11 +111,20 @@ public class ZkBindMonitor implements InitializingBean {
     } else {
       zkClient.createPersistent(persistPath,true);
       drmPersistFieldValue.setDrmValue(fieldModel.getValue());
-      zkClient.writeData(persistPath, drmPersistFieldValue);
+      try {
+        zkClient.writeData(persistPath, drmPersistFieldValue,0);
+      }catch (Exception e){
+       if(e instanceof  KeeperException.BadVersionException){
+         LOGGER.warn("write data but bad version ignore! path:{},value:{}",persistPath,drmPersistFieldValue);
+       }else throw e;
+      }
     }
     //localPath中存放的是临时的节点
     if (!zkClient.exists(localPath)) {
-      zkClient.createEphemeralSequential(localPath, drmPersistFieldValue);
+      zkClient.createEphemeral(localPath, drmPersistFieldValue);
+    }else {
+      zkClient.writeData(localPath, drmPersistFieldValue);
+      LOGGER.warn("ephemeral path data has rewrite! path:{},data:{}",localPath,drmPersistFieldValue);
     }
     zkClient.subscribeDataChanges(persistPath, zkFieldDataListenerImpl);
     zkClient.subscribeDataChanges(localPath, zkFieldDataListenerImpl);

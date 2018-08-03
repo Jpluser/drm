@@ -4,6 +4,7 @@
 package com.ctfin.framework.drm.admin.service;
 
 import com.ctfin.framework.drm.common.DrmRequestParam;
+import com.ctfin.framework.drm.common.model.DrmClients;
 import java.util.List;
 
 import com.ctfin.framework.drm.admin.model.DrmConfRequestParam;
@@ -47,4 +48,6 @@ public interface DrmService {
    * @return
    */
   List<String> listAllApps();
+
+  List<DrmClients> listDrmClients(DrmConfRequestParam drmConfRequestParam);
 }

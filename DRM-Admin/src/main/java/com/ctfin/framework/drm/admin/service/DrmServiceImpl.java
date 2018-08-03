@@ -5,11 +5,13 @@ package com.ctfin.framework.drm.admin.service;
 
 import com.alibaba.fastjson.JSON;
 import com.ctfin.framework.drm.common.DrmRequestParam;
+import com.ctfin.framework.drm.common.model.DrmClients;
 import com.ctfin.framework.drm.common.model.ZkPathConstants;
 import com.ctfin.framework.drm.common.zk.ZkClientFetch;
 import java.util.ArrayList;
 import java.util.Collections;
 import java.util.Comparator;
+import java.util.Date;
 import java.util.List;
 
 import org.I0Itec.zkclient.ZkClient;
@@ -52,7 +54,7 @@ public class DrmServiceImpl implements DrmService {
       handleReqUrlDrm(drmConfRequestParam, reqUrls, zkClient);
     } else {
       // 如果所有的都推送，则处理所有都推送的场景，对于推送是all的场景，还要覆盖推送所有的特定机器的
-      handleAllMachineDrm(drmConfRequestParam, zkClient);
+      handleAllMachineDrm(drmConfRequestParam);
     }
 
     // 保存推送的日志：记录对应的推送流水
@@ -105,28 +107,26 @@ public class DrmServiceImpl implements DrmService {
   /**
    * 处理所有机器的drm推送：生成对应的路径：/CTFIN/DRM/应用程序名称/ALL/类名/属性名/persist或者nopersist
    */
-  private void handleAllMachineDrm(DrmConfRequestParam drmConfRequestParam, ZkClient zkClient) {
-    String zkFieldPath = StringUtils.join(
-        Lists.newArrayList(ZkPathConstants.ROOT_PATH,
-            drmConfRequestParam.getApplicationName(),
-            drmConfRequestParam.getClassName(), drmConfRequestParam.getFieldName()),
-        ZkPathConstants.PATH_SEP);
-    zkFieldPath = zkFieldPath.replace(".", ZkPathConstants.PATH_SEP);
-    List<String> children = zkClient.getChildren(zkFieldPath);
-    for (String child : children) {
-      String path = zkFieldPath + ZkPathConstants.PATH_SEP + child;
-      if (ZkPathConstants.PERSIST.equalsIgnoreCase(child)) {
-        if (!zkClient.exists(path)) {
-          zkClient.createPersistent(path, true);
+  private void handleAllMachineDrm(DrmConfRequestParam drmConfRequestParam) {
+    ZkClient zkClient = zkClientFetch.getZkClient();
+    String zkFieldPath = drmConfRequestParam.getDataPath();
+    if (zkClient.exists(zkFieldPath)) {
+      List<String> children = zkClient.getChildren(zkFieldPath);
+      for (String child : children) {
+        String path = zkFieldPath + ZkPathConstants.PATH_SEP + child;
+        if (ZkPathConstants.PERSIST.equalsIgnoreCase(child)) {
+          if (!zkClient.exists(path)) {
+            zkClient.createPersistent(path, true);
+          }
+        } else {
+          if (!zkClient.exists(path)) {
+            zkClient.createEphemeral(path);
+          }
         }
-      } else {
-        if (!zkClient.exists(path)) {
-          zkClient.createEphemeral(path);
-        }
+        DrmRequestParam drmRequestParam = new DrmRequestParam(drmConfRequestParam.getClassName(),
+            drmConfRequestParam.getFieldName(), drmConfRequestParam.getDrmValue());
+        zkClient.writeData(path, drmRequestParam);
       }
-      DrmRequestParam drmRequestParam = new DrmRequestParam(drmConfRequestParam.getClassName(),
-          drmConfRequestParam.getFieldName(), drmConfRequestParam.getDrmValue());
-      zkClient.writeData(path, drmRequestParam);
     }
   }
 
@@ -137,12 +137,7 @@ public class DrmServiceImpl implements DrmService {
   public boolean delete(DrmConfRequestParam drmConfRequestParam) {
     try {
       ZkClient zkClient = zkClientFetch.getZkClient();
-      String zkFieldPath = StringUtils.join(
-          Lists.newArrayList(ZkPathConstants.ROOT_PATH,
-              drmConfRequestParam.getApplicationName(),
-              drmConfRequestParam.getClassName(), drmConfRequestParam.getFieldName()),
-          ZkPathConstants.PATH_SEP);
-      zkFieldPath = zkFieldPath.replace(".", ZkPathConstants.PATH_SEP);
+      String zkFieldPath = drmConfRequestParam.getDataPath();
       if (CollectionUtils.isEmpty(drmConfRequestParam.getDrmRequestUrl())) {
         zkClient.deleteRecursive(zkFieldPath);
       } else {
@@ -181,11 +176,24 @@ public class DrmServiceImpl implements DrmService {
     return zkClient.getChildren(ZkPathConstants.ROOT_PATH);
   }
 
+  @Override
+  public List<DrmClients> listDrmClients(DrmConfRequestParam drmConfRequestParam) {
+    ZkClient zkClient = zkClientFetch.getZkClient();
+    String zkFieldPath = drmConfRequestParam.getDataPath();
+    List<DrmClients> drmClientsList=new ArrayList<>();
+    List<String> children = zkClient.getChildren(zkFieldPath);
+    for(String child:children){
+      long creationTime = zkClient.getCreationTime(child);
+      drmClientsList.add(new DrmClients(child,new Date(creationTime),null));
+    }
+    return drmClientsList;
+  }
+
   private void deepListDrmInfo(List<DrmRequestParam> drmRequestParams, String path) {
     ZkClient zkClient = zkClientFetch.getZkClient();
     List<String> children = zkClient.getChildren(path);
     if (CollectionUtils.isEmpty(children)) {
-      if(path.endsWith(ZkPathConstants.PATH_SEP+ZkPathConstants.PERSIST)){
+      if (path.endsWith(ZkPathConstants.PATH_SEP + ZkPathConstants.PERSIST)) {
         //只看持久化的数据
         DrmRequestParam drm = zkClient.readData(path);
         if (drm != null) {

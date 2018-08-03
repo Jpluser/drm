@@ -25,7 +25,7 @@ public class TestMain {
 	 */
 	public static void main(String[] args) throws InterruptedException {
 		System.setProperty("applicationName", "yjk");
-		System.setProperty("zk.server.addr", "172.16.9.184:2181");
+		System.setProperty("zk.server.addr", "127.0.0.1:2181");
 		AnnotationConfigApplicationContext annotationConfigApplicationContext = new AnnotationConfigApplicationContext(
 				"com.ctfin.framework.drm");
 
